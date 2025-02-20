@@ -4,6 +4,8 @@ A benchmarking tool for comparing different LLM API providers. Currently support
 - DeepSeek API
 - SiliconFlow API
 - Ark API
+- Tencent Cloud LKE API
+- Alibaba Cloud Bailian API
 
 ## Features
 
