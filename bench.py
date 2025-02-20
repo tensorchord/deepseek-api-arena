@@ -96,8 +96,8 @@ class Benchmark:
         return output, ttft, token_times
 
     def is_model_available(self, provider: Provider) -> bool:
-        if provider.name == "Ark":
-            self.logger.warning("Skipping model availability check for Ark, as it does not provide a model list")
+        if provider.name == "Ark" or provider.name == "LKE":
+            self.logger.warning("Skipping model availability check for Ark or LKE, as it does not provide a model list")
             return True
         
         self.logger.info(f"Verifying model name {provider.model_name}")

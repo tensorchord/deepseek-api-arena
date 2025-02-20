@@ -36,4 +36,10 @@ AVAILABLE_PROVIDERS = {
         api_base="https://dashscope.aliyuncs.com/compatible-mode/v1",
         model_name="deepseek-r1",
     ),
+    "lke": Provider(
+        name="LKE",
+        api_key=os.getenv("LKE_API_KEY"),
+        api_base="https://api.lkeap.cloud.tencent.com/v1",
+        model_name="deepseek-r1",
+    ),
 }

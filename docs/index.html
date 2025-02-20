@@ -169,6 +169,13 @@
                 </tr>
                 
                 <tr>
+                    <td>LKE (腾讯知识引擎原子能力)</td>
+                    <td>0.8782</td>
+                    <td>0.0901</td>
+                    <td>11.0988</td>
+                </tr>
+                
+                <tr>
                     <td>siliconflow (硅基流动)</td>
                     <td>0.4868</td>
                     <td>0.1103</td>
@@ -190,12 +197,13 @@
     </div>
 
     <script>
-        const data = {"dates": ["2025-02-19", "2025-02-20"], "providers": ["Ark", "Bailian", "DeepSeek", "siliconflow"], "tbt": {"Ark": [0.0415, 0.0424], "Bailian": [0, 0.0862], "DeepSeek": [0.0582, 0.0517], "siliconflow": [0.1357, 0.1103]}, "ttft": {"Ark": [0.4205, 0.461], "Bailian": [0, 0.8657], "DeepSeek": [8.7132, 11.7132], "siliconflow": [0.5174, 0.4868]}};
+        const data = {"dates": ["2025-02-19", "2025-02-20"], "providers": ["Ark", "Bailian", "DeepSeek", "LKE", "siliconflow"], "tbt": {"Ark": [0.0415, 0.0424], "Bailian": [0, 0.0862], "DeepSeek": [0.0582, 0.0517], "LKE": [0, 0.0901], "siliconflow": [0.1357, 0.1103]}, "ttft": {"Ark": [0.4205, 0.461], "Bailian": [0, 0.8657], "DeepSeek": [8.7132, 11.7132], "LKE": [0, 0.8782], "siliconflow": [0.5174, 0.4868]}};
         const providerNames = {
             'Ark': 'Ark (火山方舟)',
             'siliconflow': 'siliconflow (硅基流动)',
             'DeepSeek': 'DeepSeek (深度求索)',
-            'Bailian': 'Bailian (阿里百炼)'
+            'Bailian': 'Bailian (阿里百炼)',
+            'LKE': 'LKE (腾讯知识引擎原子能力)'
         };
         
         // Calculate Throughput from TBT
