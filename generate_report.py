@@ -1,6 +1,7 @@
 import glob
 import re
 from jinja2 import Template
+from providers import AVAILABLE_PROVIDERS
 
 def parse_results():
     data = {
@@ -55,8 +56,27 @@ def generate_html():
     # Parse results
     data = parse_results()
     
+    # Add provider pricing info
+    pricing_data = {
+        'input_prices': {},
+        'output_prices': {},
+        'input_cache_prices': {}  # Add cache prices
+    }
+    
+    for provider_key, provider in AVAILABLE_PROVIDERS.items():
+        pricing_data['input_prices'][provider.name] = provider.price_per_1m_input_tokens
+        pricing_data['output_prices'][provider.name] = provider.price_per_1m_output_tokens
+        if provider.price_per_1m_input_tokens_cache != -1.0:
+            pricing_data['input_cache_prices'][provider.name] = provider.price_per_1m_input_tokens_cache
+    
+    # Combine data
+    template_data = {
+        'data': data,
+        'pricing': pricing_data
+    }
+    
     # Generate HTML
-    html = template.render(data=data)
+    html = template.render(**template_data)
     
     # Write output
     with open('docs/index.html', 'w') as f:

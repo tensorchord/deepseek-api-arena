@@ -243,6 +243,15 @@
                 white-space: normal;
                 line-height: 1.2;
             }
+
+            th, td {
+                padding: 8px 2px;  /* Reduced padding for more compact layout */
+                font-size: 12px;  /* Smaller font size to fit more columns */
+            }
+            /* Adjust column widths for mobile */
+            td:first-child {
+                max-width: 120px;  /* Reduced width for provider column */
+            }
         }
     </style>
 </head>
@@ -292,6 +301,8 @@
             <thead>
                 <tr>
                     <th data-sort="provider">Provider</th>
+                    <th data-sort="input_price" title="每百万输入 token 的价格">Input<br>($/1M)</th>
+                    <th data-sort="output_price" title="每百万输出 token 的价格">Output<br>($/1M)</th>
                     <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
                     <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (s)</th>
                     <th data-sort="throughput" title="每秒生成的 token 数 (1/TBT)">Throughput<br>(tokens/s)</th>
@@ -301,6 +312,10 @@
                 
                 <tr>
                     <td>Ark (火山方舟)</td>
+                    <td>2.0
+                        
+                    </td>
+                    <td>8.0</td>
                     <td>0.4610</td>
                     <td>0.0424</td>
                     <td>23.5849</td>
@@ -308,6 +323,10 @@
                 
                 <tr>
                     <td>Bailian (阿里百炼)</td>
+                    <td>2.0
+                        
+                    </td>
+                    <td>8.0</td>
                     <td>0.8657</td>
                     <td>0.0862</td>
                     <td>11.6009</td>
@@ -315,6 +334,12 @@
                 
                 <tr>
                     <td>DeepSeek (深度求索)</td>
+                    <td>4.0
+                        
+                        <br><span style="font-size: 0.8em; color: #666;">(1.0 cached)</span>
+                        
+                    </td>
+                    <td>16.0</td>
                     <td>11.7132</td>
                     <td>0.0517</td>
                     <td>19.3424</td>
@@ -322,6 +347,10 @@
                 
                 <tr>
                     <td>LKE (腾讯知识引擎原子能力)</td>
+                    <td>26.0
+                        
+                    </td>
+                    <td>75.0</td>
                     <td>0.8782</td>
                     <td>0.0901</td>
                     <td>11.0988</td>
@@ -329,6 +358,10 @@
                 
                 <tr>
                     <td>siliconflow (硅基流动)</td>
+                    <td>4.0
+                        
+                    </td>
+                    <td>16.0</td>
                     <td>0.4868</td>
                     <td>0.1103</td>
                     <td>9.0662</td>
@@ -341,7 +374,7 @@
     <div class="chart-container">
         <canvas id="ttftChart"></canvas>
     </div>
-    <div class="chart-container">
+    <div class="chart-container"></div>
         <canvas id="tbtChart"></canvas>
     </div>
     <div class="chart-container">

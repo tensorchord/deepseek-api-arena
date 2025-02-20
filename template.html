@@ -243,6 +243,15 @@
                 white-space: normal;
                 line-height: 1.2;
             }
+
+            th, td {
+                padding: 8px 2px;  /* Reduced padding for more compact layout */
+                font-size: 12px;  /* Smaller font size to fit more columns */
+            }
+            /* Adjust column widths for mobile */
+            td:first-child {
+                max-width: 120px;  /* Reduced width for provider column */
+            }
         }
     </style>
 </head>
@@ -292,6 +301,8 @@
             <thead>
                 <tr>
                     <th data-sort="provider">Provider</th>
+                    <th data-sort="input_price" title="每百万输入 token 的价格">Input<br>($/1M)</th>
+                    <th data-sort="output_price" title="每百万输出 token 的价格">Output<br>($/1M)</th>
                     <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
                     <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (s)</th>
                     <th data-sort="throughput" title="每秒生成的 token 数 (1/TBT)">Throughput<br>(tokens/s)</th>
@@ -307,6 +318,12 @@
                         'Bailian': '阿里百炼',
                         'LKE': '腾讯知识引擎原子能力'
                     }[provider] }})</td>
+                    <td>{{ "%.1f" | format(pricing.input_prices[provider]) }}
+                        {% if provider in pricing.input_cache_prices %}
+                        <br><span style="font-size: 0.8em; color: #666;">({{ "%.1f" | format(pricing.input_cache_prices[provider]) }} cached)</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ "%.1f" | format(pricing.output_prices[provider]) }}</td>
                     <td>{{ "%.4f" | format(data.ttft[provider][-1]) }}</td>
                     <td>{{ "%.4f" | format(data.tbt[provider][-1]) }}</td>
                     <td>{{ "%.4f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</td>
@@ -319,7 +336,7 @@
     <div class="chart-container">
         <canvas id="ttftChart"></canvas>
     </div>
-    <div class="chart-container">
+    <div class="chart-container"></div>
         <canvas id="tbtChart"></canvas>
     </div>
     <div class="chart-container">
