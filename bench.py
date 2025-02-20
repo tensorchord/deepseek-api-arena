@@ -189,6 +189,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     selected_providers = [AVAILABLE_PROVIDERS[p] for p in args.providers]
-    print(selected_providers)
     benchmark = Benchmark(providers=selected_providers, num_runs=args.num_runs)
     benchmark.run()
