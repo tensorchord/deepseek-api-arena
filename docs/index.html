@@ -29,6 +29,29 @@
         }
         th {
             background-color: #f5f5f5;
+            cursor: pointer;
+            user-select: none;
+        }
+        th:hover {
+            background-color: #e8e8e8;
+        }
+        th::after {
+            content: '';
+            float: right;
+            margin-top: 7px;
+            border-width: 4px;
+            border-style: solid;
+            border-color: transparent;
+            visibility: hidden;
+        }
+        th.asc::after {
+            border-bottom-color: #666;
+            visibility: visible;
+        }
+        th.desc::after {
+            border-top-color: #666;
+            visibility: visible;
+            margin-top: 3px;
         }
         tr:hover {
             background-color: #f9f9f9;
@@ -38,20 +61,63 @@
             color: #333;
             margin-bottom: 30px;
         }
+        .metrics-info {
+            width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .metric-item {
+            margin-bottom: 20px;
+        }
+        .metric-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .metric-desc {
+            color: #555;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
     <h1>DeepSeek API Arena</h1>
+
+    <div class="metrics-info">
+        <h2>关于 DeepSeek API Arena</h2>
+        <div class="metric-desc">
+            这是一个用于测试不同供应商 DeepSeek R1 模型推理性能的 benchmark。用于比较和评估不同供应商部署的 DeepSeek R1 模型的推理能力和效率。
+        </div>
+    </div>
     
+    <div class="metrics-info">
+        <h2>性能指标说明</h2>
+        <div class="metric-item">
+            <div class="metric-title">TTFT (Time To First Token)</div>
+            <div class="metric-desc">该指标显示了用户在看到模型输出之前需要等待的时间。这是从提交查询到接收到第一个令牌（如果响应不为空）所花费的时间。TTFT 越小，用户等待时间越短，体验越好。</div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-title">TBT（Time Between Tokens）</div>
+            <div class="metric-desc">该指标表示生成相邻 token 之间的平均时间间隔。反映了模型生成文本的连续性和流畅度，数值越低表示生成速度越快，用户获得完整回复的时间越短。</div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-title">Throughput (吞吐量)</div>
+            <div class="metric-desc">基于 TBT 计算的每秒生成 token 数量(1/TBT)。这个指标直观地反映了模型的实际生成效率，数值越高表示生成速度越快，单个用户每秒能产生更多的文本内容。</div>
+        </div>
+    </div>
+
     <div class="table-container">
         <h2>Latest Results (2025-02-20)</h2>
-        <table>
+        <table id="resultsTable">
             <thead>
                 <tr>
-                    <th>Provider</th>
-                    <th>TTFT (s)</th>
-                    <th>TBT (s)</th>
-                    <th>Throughput (tokens/s)</th>
+                    <th data-sort="provider">Provider</th>
+                    <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
+                    <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (s)</th>
+                    <th data-sort="throughput" title="每秒生成的 token 数 (1/TBT)">Throughput (tokens/s)</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,6 +127,13 @@
                     <td>0.4610</td>
                     <td>0.0424</td>
                     <td>23.5849</td>
+                </tr>
+                
+                <tr>
+                    <td>Bailian (阿里百炼)</td>
+                    <td>0.8657</td>
+                    <td>0.0862</td>
+                    <td>11.6009</td>
                 </tr>
                 
                 <tr>
@@ -92,33 +165,49 @@
     </div>
 
     <script>
-        const data = {"dates": ["2025-02-19", "2025-02-20"], "providers": ["Ark", "DeepSeek", "siliconflow"], "tbt": {"Ark": [0.0415, 0.0424], "DeepSeek": [0.0582, 0.0517], "siliconflow": [0.1357, 0.1103]}, "ttft": {"Ark": [0.4205, 0.461], "DeepSeek": [8.7132, 11.7132], "siliconflow": [0.5174, 0.4868]}};
+        const data = {"dates": ["2025-02-19", "2025-02-20"], "providers": ["Ark", "Bailian", "DeepSeek", "siliconflow"], "tbt": {"Ark": [0.0415, 0.0424], "Bailian": [0, 0.0862], "DeepSeek": [0.0582, 0.0517], "siliconflow": [0.1357, 0.1103]}, "ttft": {"Ark": [0.4205, 0.461], "Bailian": [0, 0.8657], "DeepSeek": [8.7132, 11.7132], "siliconflow": [0.5174, 0.4868]}};
         const providerNames = {
-            'Ark': 'Ark (方舟)',
+            'Ark': 'Ark (火山方舟)',
             'siliconflow': 'siliconflow (硅基流动)',
-            'DeepSeek': 'DeepSeek (深度求索)'
+            'DeepSeek': 'DeepSeek (深度求索)',
+            'Bailian': 'Bailian (阿里百炼)'
         };
         
-        // Calculate QPS from TBT
-        const qpsData = {};
+        // Calculate Throughput from TBT
+        const throughputData = {};
         for (const provider of data.providers) {
-            qpsData[provider] = data.tbt[provider].map(tbt => tbt > 0 ? 1 / tbt : 0);
+            throughputData[provider] = data.tbt[provider].map((tbt, idx) => ({
+                x: data.dates[idx],
+                y: tbt > 0 ? (1.0 / tbt) : null
+            }));
         }
 
         function createChart(ctx, label, dataKey, yAxisLabel, dataSource) {
             const sourceData = dataSource || data[dataKey];
-            const datasets = data.providers.map(provider => ({
-                label: providerNames[provider] || provider,
-                data: sourceData[provider],
-                fill: false,
-                tension: 0.1,
-                borderWidth: 2
-            }));
+            const datasets = data.providers.map(provider => {
+                let chartData;
+                
+                if (dataKey === 'throughput') {
+                    chartData = sourceData[provider];
+                } else {
+                    chartData = sourceData[provider].map((val, idx) => ({
+                        x: data.dates[idx],
+                        y: val > 0 ? val : null
+                    }));
+                }
+
+                return {
+                    label: providerNames[provider] || provider,
+                    data: chartData,
+                    fill: false,
+                    tension: 0.1,
+                    borderWidth: 2
+                };
+            });
             
             return new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.dates,
                     datasets: datasets
                 },
                 options: {
@@ -144,6 +233,7 @@
                             beginAtZero: true
                         },
                         x: {
+                            type: 'category',
                             title: {
                                 display: true,
                                 text: 'Date'
@@ -171,10 +261,52 @@
         createChart(
             document.getElementById('qpsChart'),
             'Throughput',
-            'qps',
+            'throughput',
             'Tokens/Second',
-            qpsData
+            throughputData
         );
+
+        // Add table sorting functionality
+        document.querySelectorAll('#resultsTable th').forEach(headerCell => {
+            headerCell.addEventListener('click', () => {
+                const table = headerCell.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const sortColumn = headerCell.dataset.sort;
+                const currentIsAsc = headerCell.classList.contains('asc');
+                
+                // Remove existing sort classes
+                table.querySelectorAll('th').forEach(th => {
+                    th.classList.remove('asc', 'desc');
+                });
+                
+                // Add new sort class
+                headerCell.classList.add(currentIsAsc ? 'desc' : 'asc');
+
+                // Sort rows
+                const sortedRows = rows.sort((a, b) => {
+                    const aCol = a.querySelector(`td:nth-child(${headerCell.cellIndex + 1})`);
+                    const bCol = b.querySelector(`td:nth-child(${headerCell.cellIndex + 1})`);
+                    let aValue, bValue;
+
+                    if (sortColumn === 'provider') {
+                        aValue = aCol.textContent.trim();
+                        bValue = bCol.textContent.trim();
+                        return currentIsAsc ? 
+                            bValue.localeCompare(aValue) : 
+                            aValue.localeCompare(bValue);
+                    } else {
+                        aValue = parseFloat(aCol.textContent);
+                        bValue = parseFloat(bCol.textContent);
+                        return currentIsAsc ? bValue - aValue : aValue - bValue;
+                    }
+                });
+
+                // Clear and re-add sorted rows
+                tbody.innerHTML = '';
+                sortedRows.forEach(row => tbody.appendChild(row));
+            });
+        });
     </script>
 </body>
 </html>

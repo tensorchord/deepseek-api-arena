@@ -30,4 +30,10 @@ AVAILABLE_PROVIDERS = {
         api_base="https://ark.cn-beijing.volces.com/api/v3",
         model_name=os.getenv("ARK_MODEL_NAME"),
     ),
+    "bailian": Provider(
+        name="Bailian",
+        api_key=os.getenv("BAILIAN_API_KEY"),
+        api_base="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        model_name="deepseek-r1",
+    ),
 }
