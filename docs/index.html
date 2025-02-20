@@ -516,46 +516,57 @@
             throughputData
         );
 
+        // Function to sort table
+        function sortTable(headerCell, initialSort = false) {
+            const table = headerCell.closest('table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const sortColumn = headerCell.dataset.sort;
+            const currentIsAsc = headerCell.classList.contains('asc');
+            
+            // Remove existing sort classes
+            table.querySelectorAll('th').forEach(th => {
+                th.classList.remove('asc', 'desc');
+            });
+            
+            // Add new sort class
+            headerCell.classList.add(initialSort ? 'asc' : (currentIsAsc ? 'desc' : 'asc'));
+
+            // Sort rows
+            const sortedRows = rows.sort((a, b) => {
+                const aCol = a.querySelector(`td:nth-child(${headerCell.cellIndex + 1})`);
+                const bCol = b.querySelector(`td:nth-child(${headerCell.cellIndex + 1})`);
+                let aValue, bValue;
+
+                if (sortColumn === 'provider') {
+                    aValue = aCol.textContent.trim();
+                    bValue = bCol.textContent.trim();
+                    return initialSort || !currentIsAsc ? 
+                        aValue.localeCompare(bValue) : 
+                        bValue.localeCompare(aValue);
+                } else {
+                    aValue = parseFloat(aCol.textContent);
+                    bValue = parseFloat(bCol.textContent);
+                    return initialSort || !currentIsAsc ? aValue - bValue : bValue - aValue;
+                }
+            });
+
+            // Clear and re-add sorted rows
+            tbody.innerHTML = '';
+            sortedRows.forEach(row => tbody.appendChild(row));
+        }
+
         // Add table sorting functionality
         document.querySelectorAll('#resultsTable th').forEach(headerCell => {
-            headerCell.addEventListener('click', () => {
-                const table = headerCell.closest('table');
-                const tbody = table.querySelector('tbody');
-                const rows = Array.from(tbody.querySelectorAll('tr'));
-                const sortColumn = headerCell.dataset.sort;
-                const currentIsAsc = headerCell.classList.contains('asc');
-                
-                // Remove existing sort classes
-                table.querySelectorAll('th').forEach(th => {
-                    th.classList.remove('asc', 'desc');
-                });
-                
-                // Add new sort class
-                headerCell.classList.add(currentIsAsc ? 'desc' : 'asc');
+            headerCell.addEventListener('click', () => sortTable(headerCell));
+        });
 
-                // Sort rows
-                const sortedRows = rows.sort((a, b) => {
-                    const aCol = a.querySelector(`td:nth-child(${headerCell.cellIndex + 1})`);
-                    const bCol = b.querySelector(`td:nth-child(${headerCell.cellIndex + 1})`);
-                    let aValue, bValue;
-
-                    if (sortColumn === 'provider') {
-                        aValue = aCol.textContent.trim();
-                        bValue = bCol.textContent.trim();
-                        return currentIsAsc ? 
-                            bValue.localeCompare(aValue) : 
-                            aValue.localeCompare(bValue);
-                    } else {
-                        aValue = parseFloat(aCol.textContent);
-                        bValue = parseFloat(bCol.textContent);
-                        return currentIsAsc ? bValue - aValue : aValue - bValue;
-                    }
-                });
-
-                // Clear and re-add sorted rows
-                tbody.innerHTML = '';
-                sortedRows.forEach(row => tbody.appendChild(row));
-            });
+        // Sort by TTFT by default on page load
+        window.addEventListener('load', () => {
+            const ttftHeader = document.querySelector('#resultsTable th[data-sort="ttft"]');
+            if (ttftHeader) {
+                sortTable(ttftHeader, true);
+            }
         });
     </script>
 
