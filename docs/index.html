@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DeepSeek API Arena</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        .table-container {
+            width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DeepSeek API Arena</h1>
+    
+    <div class="table-container">
+        <h2>Latest Results (2025-02-20)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th>TTFT (s)</th>
+                    <th>TBT (s)</th>
+                    <th>QPS</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>Ark (火山方舟)</td>
+                    <td>0.4610</td>
+                    <td>0.0424</td>
+                    <td>23.5849</td>
+                </tr>
+                
+                <tr>
+                    <td>DeepSeek (深度求索)</td>
+                    <td>11.7132</td>
+                    <td>0.0517</td>
+                    <td>19.3424</td>
+                </tr>
+                
+                <tr>
+                    <td>siliconflow (硅基流动)</td>
+                    <td>0.4868</td>
+                    <td>0.1103</td>
+                    <td>9.0662</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="ttftChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="tbtChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="qpsChart"></canvas>
+    </div>
+
+    <script>
+        const data = {"dates": ["2025-02-19", "2025-02-20"], "providers": ["Ark", "DeepSeek", "siliconflow"], "tbt": {"Ark": [0.0415, 0.0424], "DeepSeek": [0.0582, 0.0517], "siliconflow": [0.1357, 0.1103]}, "ttft": {"Ark": [0.4205, 0.461], "DeepSeek": [8.7132, 11.7132], "siliconflow": [0.5174, 0.4868]}};
+        const providerNames = {
+            'Ark': 'Ark (方舟)',
+            'siliconflow': 'siliconflow (硅基流动)',
+            'DeepSeek': 'DeepSeek (深度求索)'
+        };
+        
+        // Calculate QPS from TBT
+        const qpsData = {};
+        for (const provider of data.providers) {
+            qpsData[provider] = data.tbt[provider].map(tbt => tbt > 0 ? 1 / tbt : 0);
+        }
+
+        function createChart(ctx, label, dataKey, yAxisLabel, dataSource) {
+            const sourceData = dataSource || data[dataKey];
+            const datasets = data.providers.map(provider => ({
+                label: providerNames[provider] || provider,
+                data: sourceData[provider],
+                fill: false,
+                tension: 0.1,
+                borderWidth: 2
+            }));
+            
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dates,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: label,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: yAxisLabel
+                            },
+                            beginAtZero: true
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        createChart(
+            document.getElementById('ttftChart'),
+            'Time To First Token (TTFT)',
+            'ttft',
+            'Seconds'
+        );
+        
+        createChart(
+            document.getElementById('tbtChart'),
+            'Token Between Time (TBT)',
+            'tbt',
+            'Seconds'
+        );
+        
+        createChart(
+            document.getElementById('qpsChart'),
+            'Queries Per Second (QPS)',
+            'qps',
+            'Queries/Second',
+            qpsData
+        );
+    </script>
+</body>
+</html>

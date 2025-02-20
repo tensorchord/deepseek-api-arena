@@ -128,9 +128,10 @@ class Benchmark:
         return None
 
     def write_results(self, provider: Provider, ttfts, tbts, filename: str):
-        with open(filename, "w") as f:
-            f.write(f"{'Provider':<20} {'Avg TTFT (s)':<15} {'Avg TBT (s)':<15}\n")
-            f.write("-" * 50 + "\n")
+        with open(filename, "a") as f:
+            if os.path.getsize(filename) == 0:
+                f.write(f"{'Provider':<20} {'Avg TTFT (s)':<15} {'Avg TBT (s)':<15}\n")
+                f.write("-" * 50 + "\n")
             avg_ttft = sum(ttfts) / len(ttfts) if ttfts else None
             avg_tbt = sum(tbts) / len(tbts) if tbts else None
             f.write(f"{provider.name:<20} {avg_ttft if avg_ttft is not None else 'N/A':<15.4f} {avg_tbt if avg_tbt is not None else 'N/A':<15.4f}\n")

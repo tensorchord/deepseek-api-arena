@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DeepSeek API Arena</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        .table-container {
+            width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DeepSeek API Arena</h1>
+    
+    <div class="table-container">
+        <h2>Latest Results ({{ data.dates[-1] }})</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th>TTFT (s)</th>
+                    <th>TBT (s)</th>
+                    <th>QPS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for provider in data.providers %}
+                <tr>
+                    <td>{{ provider }} ({{ {
+                        'Ark': '火山方舟',
+                        'siliconflow': '硅基流动',
+                        'DeepSeek': '深度求索'
+                    }[provider] }})</td>
+                    <td>{{ "%.4f" | format(data.ttft[provider][-1]) }}</td>
+                    <td>{{ "%.4f" | format(data.tbt[provider][-1]) }}</td>
+                    <td>{{ "%.4f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="ttftChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="tbtChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="qpsChart"></canvas>
+    </div>
+
+    <script>
+        const data = {{ data | tojson }};
+        const providerNames = {
+            'Ark': 'Ark (方舟)',
+            'siliconflow': 'siliconflow (硅基流动)',
+            'DeepSeek': 'DeepSeek (深度求索)'
+        };
+        
+        // Calculate QPS from TBT
+        const qpsData = {};
+        for (const provider of data.providers) {
+            qpsData[provider] = data.tbt[provider].map(tbt => tbt > 0 ? 1 / tbt : 0);
+        }
+
+        function createChart(ctx, label, dataKey, yAxisLabel, dataSource) {
+            const sourceData = dataSource || data[dataKey];
+            const datasets = data.providers.map(provider => ({
+                label: providerNames[provider] || provider,
+                data: sourceData[provider],
+                fill: false,
+                tension: 0.1,
+                borderWidth: 2
+            }));
+            
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dates,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: label,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: yAxisLabel
+                            },
+                            beginAtZero: true
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        createChart(
+            document.getElementById('ttftChart'),
+            'Time To First Token (TTFT)',
+            'ttft',
+            'Seconds'
+        );
+        
+        createChart(
+            document.getElementById('tbtChart'),
+            'Token Between Time (TBT)',
+            'tbt',
+            'Seconds'
+        );
+        
+        createChart(
+            document.getElementById('qpsChart'),
+            'Queries Per Second (QPS)',
+            'qps',
+            'Queries/Second',
+            qpsData
+        );
+    </script>
+</body>
+</html>
