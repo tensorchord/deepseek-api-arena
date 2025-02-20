@@ -51,7 +51,7 @@
                     <th>Provider</th>
                     <th>TTFT (s)</th>
                     <th>TBT (s)</th>
-                    <th>QPS</th>
+                    <th>Throughput (tokens/s)</th>
                 </tr>
             </thead>
             <tbody>
@@ -160,9 +160,9 @@
         
         createChart(
             document.getElementById('qpsChart'),
-            'Queries Per Second (QPS)',
+            'Throughput',
             'qps',
-            'Queries/Second',
+            'Tokens/Second',
             qpsData
         );
     </script>
