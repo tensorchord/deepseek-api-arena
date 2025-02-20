@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepSeek API Arena</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BB749M91RM"></script>
@@ -162,6 +163,68 @@
         }
         body {
             padding-top: 60px; /* Add space for fixed header */
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 868px) {
+            .chart-container, .table-container, .metrics-info {
+                width: 95%;
+                margin: 10px auto;
+                padding: 5px;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 8px 4px;
+            }
+            
+            .header-content {
+                padding: 0 10px;
+            }
+            
+            .social-links {
+                gap: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+                margin: 20px 0;
+            }
+            
+            h2 {
+                font-size: 20px;
+                margin: 15px 0;
+            }
+
+            .metric-desc {
+                font-size: 14px;
+            }
+
+            .footer {
+                padding: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            /* Hide long Chinese names on mobile */
+            td:first-child {
+                max-width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
@@ -421,10 +484,8 @@
         </div>
         <div class="footer-links">
             <a href="https://github.com/tensorchord/vectorchord" target="_blank" style="display: flex; align-items: center; gap: 4px;">
-                <svg height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="currentColor" d="M12 2L3 9l9 7 9-7-9-7zm0 18l-9-7 9 7 9-7-9 7zm-9-7v4l9 7 9-7v-4l-9 7-9-7z"/>
-                </svg>
-                VectorChord
+                <!-- svg from vectorchord.svg -->
+                <img src="vectorchord.svg" height="20"/>
             </a>
             <a href="https://twitter.com/tensorchord" target="_blank" style="display: flex; align-items: center; gap: 4px;">
                 <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
