@@ -53,7 +53,7 @@ AVAILABLE_PROVIDERS = {
         api_key=os.getenv("LKE_API_KEY"),
         api_base="https://api.lkeap.cloud.tencent.com/v1",
         model_name="deepseek-r1",
-        price_per_1m_input_tokens=26.0,
-        price_per_1m_output_tokens=75.0,
+        price_per_1m_input_tokens=4.0,
+        price_per_1m_output_tokens=16.0,
     ),
 }
