@@ -304,8 +304,8 @@
                     <th data-sort="input_price" title="每百万输入 token 的价格">Input<br>($/1M)</th>
                     <th data-sort="output_price" title="每百万输出 token 的价格">Output<br>($/1M)</th>
                     <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
-                    <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (s)</th>
-                    <th data-sort="throughput" title="每秒生成的 token 数 (1/TBT)">Throughput<br>(tokens/s)</th>
+                    <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (ms)</th>
+                    <th data-sort="throughput" title="每秒生成的 token 数 (1000/TBT)">Throughput<br>(tokens/s)</th>
                 </tr>
             </thead>
             <tbody>
@@ -324,9 +324,9 @@
                         {% endif %}
                     </td>
                     <td>{{ "%.1f" | format(pricing.output_prices[provider]) }}</td>
-                    <td>{{ "%.4f" | format(data.ttft[provider][-1]) }}</td>
-                    <td>{{ "%.4f" | format(data.tbt[provider][-1]) }}</td>
-                    <td>{{ "%.4f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</td>
+                    <td>{{ "%.2f" | format(data.ttft[provider][-1]) }}</td>
+                    <td>{{ "%.2f" | format(data.tbt[provider][-1] * 1000) }}</td>
+                    <td>{{ "%.2f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -369,6 +369,12 @@
                 
                 if (dataKey === 'throughput') {
                     chartData = sourceData[provider];
+                } else if (dataKey === 'tbt') {
+                    // Convert TBT to milliseconds for chart
+                    chartData = sourceData[provider].map((val, idx) => ({
+                        x: data.dates[idx],
+                        y: val > 0 ? val * 1000 : null
+                    }));
                 } else {
                     chartData = sourceData[provider].map((val, idx) => ({
                         x: data.dates[idx],
@@ -461,7 +467,7 @@
             document.getElementById('tbtChart'),
             'Token Between Time (TBT)',
             'tbt',
-            'Seconds'
+            'Milliseconds'
         );
         
         createChart(
