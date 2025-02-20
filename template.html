@@ -18,6 +18,7 @@
     <style>
         .chart-container {
             width: 800px;
+            height: 500px;  /* Increased default height */
             margin: 20px auto;
             padding: 10px;
             border: 1px solid #eee;
@@ -227,14 +228,15 @@
             }
 
             .chart-container {
-                width: 100%;
-                height: auto;
-                margin: 15px 0;
+                width: 95%;
+                height: 400px;  /* Increased height for mobile */
+                margin: 15px auto;
                 padding: 10px 0;
             }
             canvas {
                 width: 100% !important;
-                height: auto !important;
+                height: 400px !important;  /* Set fixed height for canvas */
+                min-height: 400px !important;  /* Ensure minimum height */
             }
 
             th[data-sort="throughput"] {
