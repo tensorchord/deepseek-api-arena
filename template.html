@@ -225,6 +225,22 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+
+            .chart-container {
+                width: 100%;
+                height: auto;
+                margin: 15px 0;
+                padding: 10px 0;
+            }
+            canvas {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            th[data-sort="throughput"] {
+                white-space: normal;
+                line-height: 1.2;
+            }
         }
     </style>
 </head>
@@ -245,10 +261,8 @@
         </div>
     </header>
 
-    <h1>DeepSeek API Arena</h1>
-
     <div class="metrics-info">
-        <h2>关于 DeepSeek API Arena</h2>
+        <h2>DeepSeek API Arena</h2>
         <div class="metric-desc">
             这是一个用于测试不同供应商 DeepSeek R1 模型推理性能的 benchmark。用于比较和评估不同供应商部署的 DeepSeek R1 模型的推理能力和效率。
         </div>
@@ -278,7 +292,7 @@
                     <th data-sort="provider">Provider</th>
                     <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
                     <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (s)</th>
-                    <th data-sort="throughput" title="每秒生成的 token 数 (1/TBT)">Throughput (tokens/s)</th>
+                    <th data-sort="throughput" title="每秒生成的 token 数 (1/TBT)">Throughput<br>(tokens/s)</th>
                 </tr>
             </thead>
             <tbody>
@@ -359,6 +373,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         title: {
                             display: true,
@@ -368,22 +383,47 @@
                             }
                         },
                         legend: {
-                            position: 'bottom'
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 10,
+                                font: {
+                                    size: window.innerWidth < 868 ? 10 : 12
+                                }
+                            }
                         }
                     },
                     scales: {
                         y: {
                             title: {
                                 display: true,
-                                text: yAxisLabel
+                                text: yAxisLabel,
+                                font: {
+                                    size: window.innerWidth < 868 ? 10 : 12
+                                }
                             },
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: window.innerWidth < 868 ? 10 : 12
+                                }
+                            }
                         },
                         x: {
                             type: 'category',
                             title: {
                                 display: true,
-                                text: 'Date'
+                                text: 'Date',
+                                font: {
+                                    size: window.innerWidth < 868 ? 10 : 12
+                                }
+                            },
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 45,
+                                font: {
+                                    size: window.innerWidth < 868 ? 10 : 12
+                                }
                             }
                         }
                     }
