@@ -259,6 +259,10 @@
             margin-top: 4px;
             display: block;
         }
+        /* Update best-metric class to only use bold */
+        .best-metric {
+            font-weight: 900;
+        }
     </style>
 </head>
 <body>
@@ -315,6 +319,23 @@
                 </tr>
             </thead>
             <tbody>
+                {% set min_ttft = namespace(value=100000) %}
+                {% set min_tbt = namespace(value=100000) %}
+                {% set max_throughput = namespace(value=0) %}
+                
+                {% for provider in data.providers %}
+                    {% if data.ttft[provider][-1] < min_ttft.value %}
+                        {% set min_ttft.value = data.ttft[provider][-1] %}
+                    {% endif %}
+                    {% if data.tbt[provider][-1] < min_tbt.value %}
+                        {% set min_tbt.value = data.tbt[provider][-1] %}
+                    {% endif %}
+                    {% set throughput = 1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0 %}
+                    {% if throughput > max_throughput.value %}
+                        {% set max_throughput.value = throughput %}
+                    {% endif %}
+                {% endfor %}
+                
                 {% for provider in data.providers %}
                 <tr>
                     <td>{{ provider }} ({{ {
@@ -324,15 +345,15 @@
                         'Bailian': '阿里百炼',
                         'LKE': '腾讯知识引擎原子能力'
                     }[provider] }})</td>
-                    <td>{{ "¥%.2f" | format(pricing.input_prices[provider]) }}
+                    <td>¥{{ "%.2f" | format(pricing.input_prices[provider]) }}
                         {% if provider in pricing.input_cache_prices %}
                         <span class="cached-price">(¥{{ "%.2f" | format(pricing.input_cache_prices[provider]) }} cached)</span>
                         {% endif %}
                     </td>
-                    <td>{{ "¥%.2f" | format(pricing.output_prices[provider]) }}</td>
-                    <td>{{ "%.2f" | format(data.ttft[provider][-1]) }}</td>
-                    <td>{{ "%.2f" | format(data.tbt[provider][-1] * 1000) }}</td>
-                    <td>{{ "%.2f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</td>
+                    <td>¥{{ "%.2f" | format(pricing.output_prices[provider]) }}</td>
+                    <td><span {% if data.ttft[provider][-1] == min_ttft.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.ttft[provider][-1]) }}</span></td>
+                    <td><span {% if data.tbt[provider][-1] == min_tbt.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.tbt[provider][-1] * 1000) }}</span></td>
+                    <td><span {% if (1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) == max_throughput.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</span></td>
                 </tr>
                 {% endfor %}
             </tbody>
