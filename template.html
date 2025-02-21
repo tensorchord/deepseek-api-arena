@@ -1,9 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek API Arena</title>
+    <meta name="description" content="DeepSeek API Arena - 全面的 LLM API 性能基准测试平台。比较不同供应商的 DeepSeek 模型性能，包括火山方舟、硅基流动、深度求索、阿里百炼和腾讯 LKE 等。提供 TTFT、TBT 和吞吐量等关键指标对比。">
+    <meta name="keywords" content="DeepSeek, API基准测试, LLM性能, TTFT, TBT, 吞吐量, 火山方舟, 硅基流动, 深度求索, 阿里百炼, 腾讯知识引擎, API性能对比">
+    <meta name="author" content="TensorChord">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="DeepSeek API Arena - LLM API 性能基准测试平台">
+    <meta property="og:description" content="比较评估各大供应商 DeepSeek 模型API性能的基准测试平台，提供实时性能数据分析。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tensorchord.github.io/deepseek-api-arena/">
+    <meta property="og:image" content="https://tensorchord.github.io/deepseek-api-arena/preview.png">
+    <meta property="og:site_name" content="DeepSeek API Arena">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tensorchord">
+    <meta name="twitter:title" content="DeepSeek API Arena - LLM API 性能基准测试平台">
+    <meta name="twitter:description" content="比较评估各大供应商 DeepSeek 模型API性能的基准测试平台，提供实时性能数据分析。">
+    <meta name="twitter:image" content="https://tensorchord.github.io/deepseek-api-arena/preview.png">
+
+    <!-- Schema.org markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DeepSeek API Arena",
+      "description": "LLM API性能基准测试平台，提供各大供应商DeepSeek模型的性能对比数据",
+      "url": "https://tensorchord.github.io/deepseek-api-arena/",
+      "provider": {
+        "@type": "Organization",
+        "name": "TensorChord",
+        "url": "https://github.com/tensorchord"
+      },
+      "applicationCategory": "Benchmark Tool",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <link rel="canonical" href="https://tensorchord.github.io/deepseek-api-arena/">
+    <title>DeepSeek API Arena - LLM API 性能基准测试平台 | 多供应商性能对比</title>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BB749M91RM"></script>
     <script>
@@ -265,7 +309,7 @@
         }
     </style>
 </head>
-<body>
+<body itemscope itemtype="https://schema.org/WebPage">
     <header class="header">
         <div class="header-content">
             <h3 style="margin: 0;">DeepSeek API Arena</h3>
@@ -282,93 +326,97 @@
         </div>
     </header>
 
-    <div class="metrics-info">
-        <h2>DeepSeek API Arena</h2>
-        <div class="metric-desc">
-            这是一个用于测试不同供应商 DeepSeek R1 模型推理性能的 benchmark。用于比较和评估不同供应商部署的 DeepSeek R1 模型的推理能力和效率。
-        </div>
-    </div>
-    
-    <div class="metrics-info">
-        <h2>性能指标说明</h2>
-        <div class="metric-item">
-            <div class="metric-title">TTFT (Time To First Token)</div>
-            <div class="metric-desc">该指标显示了用户在看到模型输出之前需要等待的时间。这是从提交查询到接收到第一个 token（如果响应不为空）所花费的时间。TTFT 越小，用户等待时间越短，体验越好。</div>
-        </div>
-        <div class="metric-item">
-            <div class="metric-title">TBT（Time Between Tokens）</div>
-            <div class="metric-desc">该指标表示生成相邻 token 之间的平均时间间隔。反映了模型生成文本的连续性和流畅度，数值越低表示生成速度越快，用户获得完整回复的时间越短。</div>
-        </div>
-        <div class="metric-item">
-            <div class="metric-title">Throughput (吞吐量)</div>
-            <div class="metric-desc">基于 TBT 计算的每秒生成 token 数量(1/TBT)。这个指标直观地反映了模型的实际生成效率，数值越高表示生成速度越快，单个用户每秒能产生更多的文本内容。</div>
-        </div>
-    </div>
+    <main>
+        <article itemscope itemtype="https://schema.org/TechArticle">
+            <div class="metrics-info">
+                <h1 itemprop="headline">DeepSeek API Arena</h1>
+                <div class="metric-desc" itemprop="description">
+                    这是一个用于测试不同供应商 DeepSeek R1 模型推理性能的 benchmark。用于比较和评估不同供应商部署的 DeepSeek R1 模型的推理能力和效率。
+                </div>
+            </div>
+            
+            <div class="metrics-info">
+                <h2>性能指标说明</h2>
+                <div class="metric-item">
+                    <div class="metric-title">TTFT (Time To First Token)</div>
+                    <div class="metric-desc">该指标显示了用户在看到模型输出之前需要等待的时间。这是从提交查询到接收到第一个 token（如果响应不为空）所花费的时间。TTFT 越小，用户等待时间越短，体验越好。</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-title">TBT（Time Between Tokens）</div>
+                    <div class="metric-desc">该指标表示生成相邻 token 之间的平均时间间隔。反映了模型生成文本的连续性和流畅度，数值越低表示生成速度越快，用户获得完整回复的时间越短。</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-title">Throughput (吞吐量)</div>
+                    <div class="metric-desc">基于 TBT 计算的每秒生成 token 数量(1/TBT)。这个指标直观地反映了模型的实际生成效率，数值越高表示生成速度越快，单个用户每秒能产生更多的文本内容。</div>
+                </div>
+            </div>
 
-    <div class="table-container">
-        <h2>最新数据 ({{ data.dates[-1] }})</h2>
-        <table id="resultsTable">
-            <thead>
-                <tr>
-                    <th data-sort="provider">供应商</th>
-                    <th data-sort="input_price" title="每百万输入 token 的价格">输入<br>(1M tokens)</th>
-                    <th data-sort="output_price" title="每百万输出 token 的价格">输出<br>(1M tokens)</th>
-                    <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
-                    <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (ms)</th>
-                    <th data-sort="throughput" title="每秒生成的 token 数 (1000/TBT)">吞吐<br>(tokens/s)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% set min_ttft = namespace(value=100000) %}
-                {% set min_tbt = namespace(value=100000) %}
-                {% set max_throughput = namespace(value=0) %}
-                
-                {% for provider in data.providers %}
-                    {% if data.ttft[provider][-1] < min_ttft.value %}
-                        {% set min_ttft.value = data.ttft[provider][-1] %}
-                    {% endif %}
-                    {% if data.tbt[provider][-1] < min_tbt.value %}
-                        {% set min_tbt.value = data.tbt[provider][-1] %}
-                    {% endif %}
-                    {% set throughput = 1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0 %}
-                    {% if throughput > max_throughput.value %}
-                        {% set max_throughput.value = throughput %}
-                    {% endif %}
-                {% endfor %}
-                
-                {% for provider in data.providers %}
-                <tr>
-                    <td>{{ {
-                        'Ark': '火山方舟',
-                        'siliconflow': '硅基流动',
-                        'DeepSeek': '深度求索',
-                        'Bailian': '阿里百炼',
-                        'LKE': '腾讯知识引擎原子能力'
-                    }[provider] }}</td>
-                    <td>¥{{ "%.2f" | format(pricing.input_prices[provider]) }}
-                        {% if provider in pricing.input_cache_prices %}
-                        <span class="cached-price">(¥{{ "%.2f" | format(pricing.input_cache_prices[provider]) }} cached)</span>
-                        {% endif %}
-                    </td>
-                    <td>¥{{ "%.2f" | format(pricing.output_prices[provider]) }}</td>
-                    <td><span {% if data.ttft[provider][-1] == min_ttft.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.ttft[provider][-1]) }}</span></td>
-                    <td><span {% if data.tbt[provider][-1] == min_tbt.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.tbt[provider][-1] * 1000) }}</span></td>
-                    <td><span {% if (1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) == max_throughput.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</span></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="chart-container">
-        <canvas id="ttftChart"></canvas>
-    </div>
-    <div class="chart-container">
-        <canvas id="tbtChart"></canvas>
-    </div>
-    <div class="chart-container">
-        <canvas id="qpsChart"></canvas>
-    </div>
+            <div class="table-container">
+                <h2>最新数据 ({{ data.dates[-1] }})</h2>
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th data-sort="provider">供应商</th>
+                            <th data-sort="input_price" title="每百万输入 token 的价格">输入<br>(1M tokens)</th>
+                            <th data-sort="output_price" title="每百万输出 token 的价格">输出<br>(1M tokens)</th>
+                            <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
+                            <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (ms)</th>
+                            <th data-sort="throughput" title="每秒生成的 token 数 (1000/TBT)">吞吐<br>(tokens/s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set min_ttft = namespace(value=100000) %}
+                        {% set min_tbt = namespace(value=100000) %}
+                        {% set max_throughput = namespace(value=0) %}
+                        
+                        {% for provider in data.providers %}
+                            {% if data.ttft[provider][-1] < min_ttft.value %}
+                                {% set min_ttft.value = data.ttft[provider][-1] %}
+                            {% endif %}
+                            {% if data.tbt[provider][-1] < min_tbt.value %}
+                                {% set min_tbt.value = data.tbt[provider][-1] %}
+                            {% endif %}
+                            {% set throughput = 1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0 %}
+                            {% if throughput > max_throughput.value %}
+                                {% set max_throughput.value = throughput %}
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% for provider in data.providers %}
+                        <tr>
+                            <td>{{ {
+                                'Ark': '火山方舟',
+                                'siliconflow': '硅基流动',
+                                'DeepSeek': '深度求索',
+                                'Bailian': '阿里百炼',
+                                'LKE': '腾讯知识引擎原子能力'
+                            }[provider] }}</td>
+                            <td>¥{{ "%.2f" | format(pricing.input_prices[provider]) }}
+                                {% if provider in pricing.input_cache_prices %}
+                                <span class="cached-price">(¥{{ "%.2f" | format(pricing.input_cache_prices[provider]) }} cached)</span>
+                                {% endif %}
+                            </td>
+                            <td>¥{{ "%.2f" | format(pricing.output_prices[provider]) }}</td>
+                            <td><span {% if data.ttft[provider][-1] == min_ttft.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.ttft[provider][-1]) }}</span></td>
+                            <td><span {% if data.tbt[provider][-1] == min_tbt.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.tbt[provider][-1] * 1000) }}</span></td>
+                            <td><span {% if (1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) == max_throughput.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="ttftChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="tbtChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="qpsChart"></canvas>
+            </div>
+        </article>
+    </main>
 
     <script>
         const data = {{ data | tojson }};
