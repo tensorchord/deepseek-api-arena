@@ -1,5 +1,7 @@
 # DeepSeek API Arena
 
+🔗 [Live Demo](https://deepseek.ai-infra.fun)
+
 A benchmarking tool for comparing different LLM API providers' DeepSeek model deployments. Currently supports:
 
 | Provider | Input Price (¥/1M) | Output Price (¥/1M) | Notes |
