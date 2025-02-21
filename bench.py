@@ -43,7 +43,7 @@ class Benchmark:
             self.logger.warning(f"Proxy is enabled with {proxy}")
 
     def make_api_call(self, provider: Provider):
-        start_time = time.time()
+        start_time = time.perf_counter()
         ttft = None
         token_times = []
         output = ""
@@ -89,7 +89,7 @@ class Benchmark:
                             token = delta.get("reasoning_content") or delta.get("content")
                             if token:
                                 output += token
-                                current_time = time.time()
+                                current_time = time.perf_counter()
                                 if ttft is None:
                                     ttft = current_time - start_time
                                 token_times.append(current_time)
