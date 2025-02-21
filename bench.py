@@ -30,6 +30,10 @@ class Benchmark:
         self.num_runs = num_runs
         self.logger = logging.getLogger(__name__)
         self.check_if_proxy_is_enabled()
+        # Create results directory if it doesn't exist
+        self.results_dir = "results"
+        if not os.path.exists(self.results_dir):
+            os.makedirs(self.results_dir)
 
     def check_if_proxy_is_enabled(self):
         proxy = os.getenv("HTTP_PROXY") or os.getenv("http_proxy") or os.getenv(
@@ -128,8 +132,9 @@ class Benchmark:
         return None
 
     def write_results(self, provider: Provider, ttfts, tbts, filename: str):
-        with open(filename, "a") as f:
-            if os.path.getsize(filename) == 0:
+        filepath = os.path.join(self.results_dir, filename)
+        with open(filepath, "a") as f:
+            if os.path.getsize(filepath) == 0:
                 f.write(f"{'Provider':<20} {'Avg TTFT (s)':<15} {'Avg TBT (s)':<15}\n")
                 f.write("-" * 50 + "\n")
             avg_ttft = sum(ttfts) / len(ttfts) if ttfts else None

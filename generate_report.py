@@ -12,7 +12,7 @@ def parse_results():
     }
     
     # First pass: collect all dates and providers
-    result_files = sorted(glob.glob('results_*.txt'))
+    result_files = sorted(glob.glob('results/results_*.txt'))  # Updated path
     for file in result_files:
         date_str = file.split('_')[1].split('.')[0]
         data['dates'].append(date_str)
