@@ -1,11 +1,14 @@
 # DeepSeek API Arena
 
-A benchmarking tool for comparing different LLM API providers. Currently supports:
-- DeepSeek API
-- SiliconFlow API
-- Ark API
-- Tencent Cloud LKE API
-- Alibaba Cloud Bailian API
+A benchmarking tool for comparing different LLM API providers' DeepSeek model deployments. Currently supports:
+
+| Provider | Model | Input Price ($/1M) | Output Price ($/1M) | Notes |
+|----------|-------|-------------------|-------------------|-------|
+| DeepSeek | deepseek-reasoner | 4.0 | 16.0 | Cache: 1.0 $/1M tokens |
+| SiliconFlow | DeepSeek-R1 | 4.0 | 16.0 | - |
+| Ark (火山方舟) | DeepSeek-R1 | 2.0 | 8.0 | - |
+| Bailian (阿里百炼) | deepseek-r1 | 2.0 | 8.0 | - |
+| LKE (腾讯) | deepseek-r1 | 4.0 | 16.0 | - |
 
 ## Features
 
@@ -32,6 +35,8 @@ DEEPSEEK_API_KEY=your_deepseek_key
 SILICONFLOW_API_KEY=your_siliconflow_key
 ARK_API_KEY=your_ark_key
 ARK_MODEL_NAME=your_ark_model_name
+BAILIAN_API_KEY=your_bailian_key
+LKE_API_KEY=your_lke_key
 
 # Optional: Set logging level (DEBUG, INFO, WARNING, ERROR)
 LOG_LEVEL=INFO
