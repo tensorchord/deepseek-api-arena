@@ -25,9 +25,10 @@ logger = logging.getLogger(__name__)
 
 
 class Benchmark:
-    def __init__(self, providers: list[Provider], num_runs: int = 3):
+    def __init__(self, providers: list[Provider], num_runs: int = 3, max_tokens: int = 100):
         self.providers = providers
         self.num_runs = num_runs
+        self.max_tokens = max_tokens
         self.logger = logging.getLogger(__name__)
         self.check_if_proxy_is_enabled()
         # Create results directory if it doesn't exist
@@ -62,7 +63,7 @@ class Benchmark:
                         ),
                     }
                 ],
-                "max_tokens": 100,
+                "max_tokens": self.max_tokens,
                 "stream": True
             },
             stream=True
@@ -191,8 +192,19 @@ if __name__ == "__main__":
         default=list(AVAILABLE_PROVIDERS.keys()),
         help='List of providers to benchmark (default: all providers)'
     )
+    parser.add_argument(
+        '-m',
+        '--max-tokens',
+        type=int,
+        default=100,
+        help='Maximum number of tokens to generate (default: 100)'
+    )
     args = parser.parse_args()
     
     selected_providers = [AVAILABLE_PROVIDERS[p] for p in args.providers]
-    benchmark = Benchmark(providers=selected_providers, num_runs=args.num_runs)
+    benchmark = Benchmark(
+        providers=selected_providers, 
+        num_runs=args.num_runs,
+        max_tokens=args.max_tokens
+    )
     benchmark.run()
