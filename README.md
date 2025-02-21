@@ -2,13 +2,13 @@
 
 A benchmarking tool for comparing different LLM API providers' DeepSeek model deployments. Currently supports:
 
-| Provider | Model | Input Price ($/1M) | Output Price ($/1M) | Notes |
-|----------|-------|-------------------|-------------------|-------|
-| DeepSeek | deepseek-reasoner | 4.0 | 16.0 | Cache: 1.0 $/1M tokens |
-| SiliconFlow | DeepSeek-R1 | 4.0 | 16.0 | - |
-| Ark (火山方舟) | DeepSeek-R1 | 2.0 | 8.0 | - |
-| Bailian (阿里百炼) | deepseek-r1 | 2.0 | 8.0 | - |
-| LKE (腾讯) | deepseek-r1 | 4.0 | 16.0 | - |
+| Provider | Input Price (¥/1M) | Output Price (¥/1M) | Notes |
+|----------|-------------------|-------------------|-------|
+| DeepSeek | ¥4.00 | ¥16.00 | Cache: ¥1.00/1M tokens |
+| SiliconFlow | ¥4.00 | ¥16.00 | - |
+| Ark (火山方舟) | ¥2.00 | ¥8.00 | - |
+| Bailian (阿里百炼) | ¥2.00 | ¥8.00 | - |
+| LKE (腾讯) | ¥4.00 | ¥16.00 | - |
 
 ## Features
 
