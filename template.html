@@ -253,6 +253,12 @@
                 max-width: 120px;  /* Reduced width for provider column */
             }
         }
+        .cached-price {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 4px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -320,7 +326,7 @@
                     }[provider] }})</td>
                     <td>{{ "¥%.2f" | format(pricing.input_prices[provider]) }}
                         {% if provider in pricing.input_cache_prices %}
-                        <br><span style="font-size: 0.8em; color: #666;">(¥{{ "%.2f" | format(pricing.input_cache_prices[provider]) }} cached)</span>
+                        <span class="cached-price">(¥{{ "%.2f" | format(pricing.input_cache_prices[provider]) }} cached)</span>
                         {% endif %}
                     </td>
                     <td>{{ "¥%.2f" | format(pricing.output_prices[provider]) }}</td>
