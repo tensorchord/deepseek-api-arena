@@ -115,9 +115,10 @@ class Benchmark:
         self.logger.debug(f"Request URL: {resp.request.url}")
         self.logger.debug(f"Request Headers: {resp.request.headers}")
         self.logger.debug(f"Request Body: {resp.request.body}")
-        self.logger.debug(f"Response: {resp}")
+        self.logger.debug(f"Response: {resp.status_code} - {resp.text}")
 
         models = resp.json()
+        self.logger.debug(f"Models: {models}")
         for model in models["data"]:
             if model["id"] == provider.model_name:
                 return True
@@ -145,6 +146,8 @@ class Benchmark:
     def benchmark_single_provider(self, provider: Provider):
         ttfts = []
         tbts = []
+
+        logger.info(f"Benchmarking {provider.name}...")
 
         if not self.is_model_available(provider):
             self.logger.error(f"Model {provider.model_name} not available")
