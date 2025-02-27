@@ -397,9 +397,33 @@
                                 {% endif %}
                             </td>
                             <td>¥{{ "%.2f" | format(pricing.output_prices[provider]) }}</td>
-                            <td><span {% if data.ttft[provider][-1] == min_ttft.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.ttft[provider][-1]) }}</span></td>
-                            <td><span {% if data.tbt[provider][-1] == min_tbt.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(data.tbt[provider][-1] * 1000) }}</span></td>
-                            <td><span {% if (1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) == max_throughput.value %}class="best-metric"{% endif %}>{{ "%.2f" | format(1.0 / data.tbt[provider][-1] if data.tbt[provider][-1] > 0 else 0) }}</span></td>
+                            <td>
+                                {% if data.ttft[provider][-1] > 0 %}
+                                <span {% if data.ttft[provider][-1] == min_ttft.value %}class="best-metric"{% endif %}>
+                                    {{ "%.2f" | format(data.ttft[provider][-1]) }}
+                                </span>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if data.tbt[provider][-1] > 0 %}
+                                <span {% if data.tbt[provider][-1] == min_tbt.value %}class="best-metric"{% endif %}>
+                                    {{ "%.2f" | format(data.tbt[provider][-1] * 1000) }}
+                                </span>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if data.tbt[provider][-1] > 0 %}
+                                <span {% if (1.0 / data.tbt[provider][-1]) == max_throughput.value %}class="best-metric"{% endif %}>
+                                    {{ "%.2f" | format(1.0 / data.tbt[provider][-1]) }}
+                                </span>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
