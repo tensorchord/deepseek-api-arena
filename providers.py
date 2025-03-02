@@ -37,8 +37,8 @@ AVAILABLE_PROVIDERS = {
         api_key=os.getenv("ARK_API_KEY"),
         api_base="https://ark.cn-beijing.volces.com/api/v3",
         model_name=os.getenv("ARK_MODEL_NAME"),
-        price_per_1m_input_tokens=2.0,
-        price_per_1m_output_tokens=8.0,
+        price_per_1m_input_tokens=4.0,
+        price_per_1m_output_tokens=16.0,
     ),
     "bailian": Provider(
         name="Bailian",
