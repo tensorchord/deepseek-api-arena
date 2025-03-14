@@ -56,23 +56,25 @@ def generate_html():
     # Parse results
     data = parse_results()
     
-    # Add provider pricing info
-    pricing_data = {
+    # Add provider info
+    provider_info = {
         'input_prices': {},
         'output_prices': {},
-        'input_cache_prices': {}  # Add cache prices
+        'input_cache_prices': {},
+        'tool_calling': {}  # Add tool calling support info
     }
     
     for provider_key, provider in AVAILABLE_PROVIDERS.items():
-        pricing_data['input_prices'][provider.name] = provider.price_per_1m_input_tokens
-        pricing_data['output_prices'][provider.name] = provider.price_per_1m_output_tokens
+        provider_info['input_prices'][provider.name] = provider.price_per_1m_input_tokens
+        provider_info['output_prices'][provider.name] = provider.price_per_1m_output_tokens
+        provider_info['tool_calling'][provider.name] = provider.tool_calling  # Add this field to Provider class
         if provider.price_per_1m_input_tokens_cache != -1.0:
-            pricing_data['input_cache_prices'][provider.name] = provider.price_per_1m_input_tokens_cache
+            provider_info['input_cache_prices'][provider.name] = provider.price_per_1m_input_tokens_cache
     
     # Combine data
     template_data = {
         'data': data,
-        'pricing': pricing_data
+        'pricing': provider_info
     }
     
     # Generate HTML

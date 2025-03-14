@@ -359,6 +359,7 @@
                             <th data-sort="provider">供应商</th>
                             <th data-sort="input_price" title="每百万输入 token 的价格">输入<br>(1M tokens)</th>
                             <th data-sort="output_price" title="每百万输出 token 的价格">输出<br>(1M tokens)</th>
+                            <th data-sort="tool_calling" title="是否支持工具调用能力">工具调用</th>
                             <th data-sort="ttft" title="从提交查询到接收到第一个 token 的时间">TTFT (s)</th>
                             <th data-sort="tbt" title="生成相邻 token 之间的平均时间">TBT (ms)</th>
                             <th data-sort="throughput" title="每秒生成的 token 数 (1000/TBT)">吞吐<br>(tokens/s)</th>
@@ -397,6 +398,13 @@
                                 {% endif %}
                             </td>
                             <td>¥{{ "%.2f" | format(pricing.output_prices[provider]) }}</td>
+                            <td>
+                                {% if pricing.tool_calling[provider] %}
+                                <span style="color: #22c55e">✓</span>
+                                {% else %}
+                                <span style="color: #ef4444">✗</span>
+                                {% endif %}
+                            </td>
                             <td>
                                 {% if data.ttft[provider][-1] > 0 %}
                                 <span {% if data.ttft[provider][-1] == min_ttft.value %}class="best-metric"{% endif %}>

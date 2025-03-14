@@ -13,6 +13,7 @@ class Provider:
     price_per_1m_input_tokens: float
     price_per_1m_output_tokens: float
     price_per_1m_input_tokens_cache: float = -1.0
+    tool_calling: bool = True
 
 AVAILABLE_PROVIDERS = {
     "deepseek": Provider(
@@ -23,6 +24,7 @@ AVAILABLE_PROVIDERS = {
         price_per_1m_input_tokens=4.0,
         price_per_1m_input_tokens_cache=1.0,
         price_per_1m_output_tokens=16.0,
+        tool_calling=False,
     ),
     "siliconflow": Provider(
         name="siliconflow",
@@ -31,6 +33,7 @@ AVAILABLE_PROVIDERS = {
         model_name="Pro/deepseek-ai/DeepSeek-R1",
         price_per_1m_input_tokens=4.0,
         price_per_1m_output_tokens=16.0,
+        tool_calling=True,
     ),
     "ark": Provider(
         name="Ark",
@@ -39,6 +42,7 @@ AVAILABLE_PROVIDERS = {
         model_name=os.getenv("ARK_MODEL_NAME"),
         price_per_1m_input_tokens=4.0,
         price_per_1m_output_tokens=16.0,
+        tool_calling=True,
     ),
     "bailian": Provider(
         name="Bailian",
@@ -47,6 +51,7 @@ AVAILABLE_PROVIDERS = {
         model_name="deepseek-r1",
         price_per_1m_input_tokens=2.0,
         price_per_1m_output_tokens=8.0,
+        tool_calling=False,
     ),
     "lke": Provider(
         name="LKE",
@@ -55,5 +60,6 @@ AVAILABLE_PROVIDERS = {
         model_name="deepseek-r1",
         price_per_1m_input_tokens=4.0,
         price_per_1m_output_tokens=16.0,
+        tool_calling=False,
     ),
 }
